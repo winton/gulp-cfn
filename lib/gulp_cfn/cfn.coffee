@@ -18,3 +18,11 @@ module.exports = (GulpCfn) ->
     #
     deploy: ->
       new NodeCfn.Aws.Stack(@stack, @cfn.cfn).create()
+
+    # Update release names.
+    #
+    # @param [Object] names an object with adjectives and nouns
+    #
+    @releaseNames: (names) ->
+      NodeCfn.NameGen.adjectives = names.adjectives;
+      NodeCfn.NameGen.nouns      = names.nouns;
