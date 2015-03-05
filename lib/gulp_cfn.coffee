@@ -13,7 +13,6 @@ class GulpCfn
     @tasks = requireDirectory(module, "./gulp_cfn/tasks")
     fn(@gulp, @config) for task, fn of @tasks
 
-require("./gulp_cfn/ask")(GulpCfn)
-require("./gulp_cfn/docker")(GulpCfn)
+require("./gulp_cfn/cfn")(GulpCfn)
 
 module.exports = GulpCfn
