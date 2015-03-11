@@ -3,12 +3,16 @@ GulpCfn = require "../../gulp_cfn"
 
 module.exports = (gulp, config) ->
 
+  cfn = null
+
   GulpCfn.Cfn.releaseNames(config.release_names)
 
-  deploy = (stack) ->
-    cfn     = config.stacks[stack]
-    cfn.cfn = path.resolve(cfn.cfn)
-    new GulpCfn.Cfn(stack, cfn).deploy()
+  deploy = (name) ->
+    stack     = config.stacks[name]
+    stack.cfn = path.resolve(stack.cfn)
+    cfn       = new GulpCfn.Cfn(name, stack)
+
+    cfn.deploy()
 
   gulp.task "deploy", ->
     if process.env.STACK
@@ -16,6 +20,6 @@ module.exports = (gulp, config) ->
     else
       console.log "\nPlease provide a STACK env variable.\n"
   
-  for stack, cfn of config.stacks
-    gulp.task "deploy:#{stack}", ->
-      deploy(stack)
+  for name, stack of config.stacks
+    gulp.task "deploy:#{name}", ->
+      deploy(name)
