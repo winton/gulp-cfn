@@ -1,25 +1,31 @@
+Promise = require "bluebird"
 path    = require "path"
 GulpCfn = require "../../gulp_cfn"
 
 module.exports = (gulp, config) ->
 
-  cfn = null
-
   GulpCfn.Cfn.releaseNames(config.release_names)
 
-  deploy = (name) ->
-    stack     = config.stacks[name]
-    stack.cfn = path.resolve(stack.cfn)
-    cfn       = new GulpCfn.Cfn(name, stack)
+  run = (name, fn, fn_param) ->
+    stack = config.stacks[name]
 
-    cfn.deploy()
+    if stack
+      stack.cfn = path.resolve(stack.cfn)
+      new GulpCfn.Cfn(name, stack)[fn](fn_param)
+    else
+      Promise.try -> throw "please specify a correct STACK env variable"
 
   gulp.task "deploy", ->
-    if process.env.STACK
-      deploy(process.env.STACK)
-    else
-      console.log "\nPlease provide a STACK env variable.\n"
+    run(process.env.STACK, "deploy")
+
+  gulp.task "deploy:restart", ->
+    run(process.env.STACK, "instances", "restart")
   
   for name, stack of config.stacks
+
     gulp.task "deploy:#{name}", ->
-      deploy(name)
+      run(name, "deploy")
+
+    gulp.task "deploy:restart:#{name}", ->
+      run(name, "restart")
+    

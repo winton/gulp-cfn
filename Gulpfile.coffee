@@ -13,9 +13,9 @@ new GulpCfn(gulp,
   stacks:
     test:
       cfn: "example/cfn.coffee"
-      fail: (cfn) ->
+      deployFail: (cfn) ->
         console.log "The CloudFormation deploy failed :("
-      success: (cfn) ->
+      deploySuccess: (cfn) ->
         api  = new NodeCfn.Aws.Api.Ec2()
         name = cfn.stack.params.stack_name 
 
@@ -28,4 +28,6 @@ new GulpCfn(gulp,
           ]
         ).then (output) ->
           console.log JSON.stringify(output, null, 2)
+      restartSuccess: (instances) ->
+        console.log JSON.stringify(instances, null, 2)
 )
