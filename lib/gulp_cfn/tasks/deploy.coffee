@@ -10,10 +10,14 @@ module.exports = (gulp, config) ->
     stack = config.stacks[name]
 
     if stack
-      stack.cfn = path.resolve(stack.cfn)
+      stack.cfn    = path.resolve(stack.cfn)
+      stack.docker = config.docker[name]
+      stack.env    = config.env
+
       new GulpCfn.Cfn(name, stack)[fn](fn_param)
     else
-      Promise.try -> throw "please specify a correct STACK env variable"
+      Promise.try ->
+        throw "please specify a correct STACK env variable"
 
   gulp.task "deploy", ->
     run(process.env.STACK, "deploy")

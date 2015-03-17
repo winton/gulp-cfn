@@ -1,4 +1,4 @@
-module.exports = (config) ->
+module.exports = (name, config) ->
   AWSTemplateFormatVersion: "2010-09-09"
   Description: "Basic template with instance id output"
   Parameters:
