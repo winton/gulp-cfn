@@ -74,7 +74,7 @@ module.exports = (GulpCfn) ->
       ).then(
         (instances) =>
           if @config["#{fn}Success"]
-            @config["#{fn}Success"](instances)
+            @config["#{fn}Success"](@, instances)
       )
 
     # Update release names.
