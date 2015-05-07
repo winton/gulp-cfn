@@ -10,9 +10,11 @@ module.exports = (gulp, config) ->
     stack = config.stacks[name]
 
     if stack
-      stack.cfn    = path.resolve(stack.cfn)
-      stack.docker = config.docker[name]
-      stack.env    = config.env
+      stack.cfn        = path.resolve(stack.cfn)
+      stack.docker     = config.docker[name]
+      stack.env        = config.env
+      stack.parameters = stack.parameters
+      stack.databases  = stack.databases
 
       new GulpCfn.Cfn(name, stack)[fn](fn_param)
     else
