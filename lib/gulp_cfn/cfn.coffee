@@ -60,7 +60,7 @@ module.exports = (GulpCfn) ->
       @stack.listRunning().then(
         (stacks) =>
           input = new NodeCfn.Aws.Stack.Input(@name)
-          input.getExistingStack(stacks)
+          input.getExistingStack(stacks, @config.env)
       ).then(
         (stack) ->
           throw "stack not found" unless stack
