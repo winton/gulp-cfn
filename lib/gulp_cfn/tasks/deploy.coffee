@@ -23,9 +23,6 @@ module.exports = (gulp, config) ->
 
   gulp.task "deploy", ->
     run(process.env.STACK, "deploy")
-
-  gulp.task "deploy:restart", ->
-    run(process.env.STACK, "instances", "restart")
   
   for name, stack of config.stacks
 

@@ -52,31 +52,6 @@ module.exports = (GulpCfn) ->
 
           if @config.deployFail && !success
             @config.deployFail(@)
-    
-    # Retrieves running instances.
-    #
-    # @param [String] fn name of the `@config` function to run
-    #
-    instances: (fn) ->
-      @stack.listRunning().then(
-        (stacks) =>
-          input = new NodeCfn.Aws.Stack.Input(@name)
-          input.getExistingStack(stacks, @config.env)
-      ).then(
-        (stack) ->
-          throw "stack not found" unless stack
-          api = new NodeCfn.Aws.Api.Ec2()
-          api.listInstances(
-            Filters: [
-              Name: "tag:aws:cloudformation:stack-name"
-              Values: [ stack.StackName ]
-            ]
-          )
-      ).then(
-        (instances) =>
-          if @config["#{fn}Success"]
-            @config["#{fn}Success"](@, instances)
-      )
 
     # Update release names.
     #
