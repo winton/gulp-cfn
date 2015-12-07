@@ -13,7 +13,7 @@ module.exports = (GulpCfn) ->
     # @param [String] @config stack configuration
     #
     constructor: (@name, @config) ->
-      NodeCfn.Aws.updateRegion(@config.availability_zone)
+      NodeCfn.Aws.updateRegion(@config.region)
       @stack = new NodeCfn.Aws.Stack(@name, @config)
 
     # Start a timer to continually check if a stack finished
